@@ -1,0 +1,435 @@
+<Window x:Class="ArabicCompilerIDE.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:local="clr-namespace:ArabicCompilerIDE"
+        Title="مترجم اللغة العربية - Arabic Compiler IDE" 
+        Height="800" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#252526"
+        FlowDirection="RightToLeft"
+        FontFamily="Segoe UI"
+        Icon="icon.ico">
+
+    <Window.Resources>
+        <!-- تنسيقات الأزرار -->
+        <local:BooleanToExecutionModeConverter x:Key="ExecutionModeConverter"/>
+        <Style x:Key="VSButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="3,0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="BorderBrush" Value="#1C97EA"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1C97EA"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#106EBE"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- تنسيق أزرار الأدوات -->
+        <Style x:Key="ToolBarButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#D4D4D4"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3E3E42"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- تنسيق مربعات النص -->
+        <Style x:Key="VSTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#1E1E1E"/>
+            <Setter Property="Foreground" Value="#D4D4D4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="FlowDirection" Value="RightToLeft"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- تنسيق القوائم -->
+        <Style x:Key="VSMenuStyle" TargetType="MenuItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#D4D4D4"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3E3E42"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- تنسيق التبويبات -->
+        <Style x:Key="VSTabItemStyle" TargetType="TabItem">
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#007ACC"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3E3E42"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- تنسيق العناوين -->
+        <Style x:Key="SectionHeaderStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="#CCCCCC"/>
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+        </Style>
+
+        <!-- تلوين النصوص للكود العربي -->
+        <avalonEdit:HighlightingDefinition x:Key="ArabicHighlighting" x:Name="ArabicHighlighting">
+            <avalonEdit:HighlightingRuleSet>
+                <!-- الكلمات المفتاحية العربية -->
+                <avalonEdit:HighlightingRule>
+                    <avalonEdit:RegexOptions>IgnoreCase</avalonEdit:RegexOptions>
+                    <avalonEdit:Regex>\b(برنامج|ثابت|نوع|متغير|إجراء|قائمة|سجل|من|اقرأ|اطبع|إذا|فإن|وإلا|كرر|إلى|أضف|طالما|استمر|حتى|بالقيمة|بالمرجع|صحيح|حقيقي|منطقي|حرفي|خيط|صح|خطأ)\b</avalonEdit:Regex>
+                    <avalonEdit:HighlightingColor Foreground="#569CD6" FontWeight="Bold"/>
+                </avalonEdit:HighlightingRule>
+
+                <!-- الأرقام -->
+                <avalonEdit:HighlightingRule>
+                    <avalonEdit:Regex>\b\d+\b</avalonEdit:Regex>
+                    <avalonEdit:HighlightingColor Foreground="#B5CEA8"/>
+                </avalonEdit:HighlightingRule>
+
+                <!-- الأرقام الحقيقية -->
+                <avalonEdit:HighlightingRule>
+                    <avalonEdit:Regex>\b\d+\.\d+\b</avalonEdit:Regex>
+                    <avalonEdit:HighlightingColor Foreground="#B5CEA8"/>
+                </avalonEdit:HighlightingRule>
+
+                <!-- السلاسل النصية -->
+                <avalonEdit:HighlightingRule>
+                    <avalonEdit:Regex>"[^"\\]*(\\.[^"\\]*)*"</avalonEdit:Regex>
+                    <avalonEdit:HighlightingColor Foreground="#CE9178"/>
+                </avalonEdit:HighlightingRule>
+
+                <!-- التعليقات (غير مدعومة في اللغة لكن نضيفها للتوافق) -->
+                <avalonEdit:HighlightingRule>
+                    <avalonEdit:Regex>//.*</avalonEdit:Regex>
+                    <avalonEdit:HighlightingColor Foreground="#6A9955"/>
+                </avalonEdit:HighlightingRule>
+
+                <!-- المعرفات -->
+                <avalonEdit:HighlightingRule>
+                    <avalonEdit:Regex>\b[a-zA-Z_][a-zA-Z0-9_]*\b</avalonEdit:Regex>
+                    <avalonEdit:HighlightingColor Foreground="#9CDCFE"/>
+                </avalonEdit:HighlightingRule>
+
+                <!-- العوامل -->
+                <avalonEdit:HighlightingRule>
+                    <avalonEdit:Regex>[+\-*/\\=!<>&|^%]</avalonEdit:Regex>
+                    <avalonEdit:HighlightingColor Foreground="#D4D4D4"/>
+                </avalonEdit:HighlightingRule>
+
+                <!-- الفواصل والرموز -->
+                <avalonEdit:HighlightingRule>
+                    <avalonEdit:Regex>[(){}\[\];:,.]</avalonEdit:Regex>
+                    <avalonEdit:HighlightingColor Foreground="#D4D4D4"/>
+                </avalonEdit:HighlightingRule>
+            </avalonEdit:HighlightingRuleSet>
+        </avalonEdit:HighlightingDefinition>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- شريط القوائم العلوي -->
+        <Menu Grid.Row="0" Background="#2D2D30" Height="28">
+            <!-- قائمة ملف -->
+            <MenuItem Header="ملف" Style="{StaticResource VSMenuStyle}">
+                <MenuItem Header="📄 جديد" Click="NewFile_Click" InputGestureText="Ctrl+N"/>
+                <MenuItem Header="📁 فتح" Click="OpenFile_Click" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="💾 حفظ" Click="SaveFile_Click" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="💾 حفظ باسم" Click="SaveFileAs_Click" InputGestureText="Ctrl+Shift+S"/>
+                <Separator/>
+                <MenuItem Header="🚪 خروج" Click="Exit_Click" InputGestureText="Alt+F4"/>
+            </MenuItem>
+
+            <!-- قائمة تحرير -->
+            <MenuItem Header="تحرير" Style="{StaticResource VSMenuStyle}">
+                <MenuItem Header="↶ تراجع" InputGestureText="Ctrl+Z"/>
+                <MenuItem Header="↷ إعادة" InputGestureText="Ctrl+Y"/>
+                <Separator/>
+                <MenuItem Header="✂ قص" InputGestureText="Ctrl+X"/>
+                <MenuItem Header="📋 نسخ" InputGestureText="Ctrl+C"/>
+                <MenuItem Header="📝 لصق" InputGestureText="Ctrl+V"/>
+                <Separator/>
+                <MenuItem Header="🔍 بحث" InputGestureText="Ctrl+F"/>
+                <MenuItem Header="🔄 استبدال" InputGestureText="Ctrl+H"/>
+            </MenuItem>
+
+            <!-- قائمة الترجمة -->
+            <MenuItem Header="ترجمة" Style="{StaticResource VSMenuStyle}">
+                <MenuItem Header="🔧 ترجمة الكود" Click="CompileButton_Click" InputGestureText="F7"/>
+                <MenuItem Header="▶ تشغيل البرنامج" Click="RunButton_Click" InputGestureText="F5"/>
+                <Separator/>
+                <MenuItem Header="🔤 عرض الرموز" Click="ShowTokens_Click"/>
+                <MenuItem Header="🌳 عرض الشجرة النحوية" Click="ShowAST_Click"/>
+                <MenuItem Header="🔄 عرض الكود الوسيط" Click="ShowIntermediate_Click"/>
+                <MenuItem Header="⚙️ عرض كود التجميع" Click="ShowAssembly_Click"/>
+            </MenuItem>
+
+            <!-- قائمة العرض -->
+            <MenuItem Header="عرض" Style="{StaticResource VSMenuStyle}">
+                <MenuItem Header="📊 إظهار/إخفاء النتائج" Click="ToggleOutput_Click"/>
+                <MenuItem Header="⚠️ إظهار/إخفاء الأخطاء" Click="ToggleErrors_Click"/>
+                <Separator/>
+                <MenuItem Header="🔢 إظهار أرقام الأسطر" 
+                          IsCheckable="True" 
+                          IsChecked="{Binding ShowLineNumbers, Mode=TwoWay}"
+                          Click="ToggleLineNumbers_Click"/>
+                <MenuItem Header="📐 إظهار المسطرة" 
+                          IsCheckable="True" 
+                          IsChecked="{Binding ShowRuler, Mode=TwoWay}"
+                          Click="ToggleRuler_Click"/>
+            </MenuItem>
+
+            <!-- قائمة المساعدة -->
+            <MenuItem Header="مساعدة" Style="{StaticResource VSMenuStyle}">
+                <MenuItem Header="📚 دليل المستخدم" Click="Help_Click"/>
+                <MenuItem Header="ℹ️ عن البرنامج" Click="About_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- شريط الأدوات -->
+        <ToolBar Grid.Row="0" Background="#333337" Height="40" Margin="0,28,0,0">
+            <Separator Background="#5A5A5A" Width="2" Margin="10,5"/>
+            <ToggleButton x:Name="ExecutionModeToggle"
+              Content="{Binding IsRealExecutionEnabled, Converter={StaticResource ExecutionModeConverter}}"
+              IsChecked="{Binding IsRealExecutionEnabled}"
+              Style="{StaticResource ToolBarButtonStyle}"
+              ToolTip="التبديل بين التنفيذ الحقيقي والمحاكاة"/>
+            <Button Content="▶ تشغيل (F5)" Click="RunButton_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            <Button Content="🔧 ترجمة (F7)" Click="CompileButton_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            <Separator Background="#5A5A5A" Width="2" Margin="10,5"/>
+            
+            <Button Content="📄 جديد" Click="NewFile_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            <Button Content="📁 فتح" Click="OpenFile_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            <Button Content="💾 حفظ" Click="SaveFile_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            <Separator Background="#5A5A5A" Width="2" Margin="10,5"/>
+            
+            <Button Content="🔤 الرموز" Click="ShowTokens_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            <Button Content="🌳 الشجرة" Click="ShowAST_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            <Button Content="🔄 الوسيط" Click="ShowIntermediate_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            <Button Content="⚙️ التجميع" Click="ShowAssembly_Click" Style="{StaticResource ToolBarButtonStyle}"/>
+            
+            <Separator Background="#5A5A5A" Width="2" Margin="10,5"/>
+            <TextBlock Text="الحالة:" Foreground="#CCCCCC" VerticalAlignment="Center" Margin="10,0,5,0"/>
+            <TextBlock x:Name="CompilationStatus" Text="غير مترجم" Foreground="#FF6B6B" VerticalAlignment="Center" FontWeight="Bold"/>
+        </ToolBar>
+
+        <!-- المنطقة الرئيسية -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- محرر الكود مع التلوين -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="📝 محرر الكود المصدري (Editor)" 
+                       Style="{StaticResource SectionHeaderStyle}"/>
+
+                <avalonEdit:TextEditor Grid.Row="1" 
+                    x:Name="SourceCodeEditor"
+                    SyntaxHighlighting="{StaticResource ArabicHighlighting}"
+                    FontFamily="Consolas, Courier New"
+                    FontSize="14"
+                    ShowLineNumbers="True"
+                    WordWrap="False"
+                    Background="#1E1E1E"
+                    Foreground="#D4D4D4"
+                    LineNumbersForeground="#6E7681"
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Auto"
+                    Document="{Binding Document, Mode=TwoWay}"
+                    Text="{Binding SourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    
+                    <avalonEdit:TextEditor.Options>
+                        <avalonEdit:TextEditorOptions 
+                            EnableHyperlinks="True"
+                            EnableEmailHyperlinks="True"
+                            EnableVirtualSpace="False"
+                            AllowScrollBelowDocument="True"
+                            CutCopyWholeLine="True"
+                            HighlightCurrentLine="True"/>
+                    </avalonEdit:TextEditor.Options>
+                    
+                    <avalonEdit:TextEditor.TextArea>
+                        <avalonEdit:TextArea>
+                            <avalonEdit:TextArea.Caret>
+                                <avalonEdit:Caret Line="1" Column="1"/>
+                            </avalonEdit:TextArea.Caret>
+                        </avalonEdit:TextArea>
+                    </avalonEdit:TextEditor.TextArea>
+                </avalonEdit:TextEditor>
+            </Grid>
+
+            <GridSplitter Grid.Column="1" Width="5" Background="#3E3E42" HorizontalAlignment="Stretch"/>
+
+            <!-- منطقة النتائج الجانبية -->
+            <Grid Grid.Column="2">
+                <TabControl x:Name="OutputTabControl" Background="#252526" BorderThickness="0" TabStripPlacement="Bottom">
+                    
+                    <!-- نافذة الرموز -->
+                    <TabItem Header="🔤 الرموز" Style="{StaticResource VSTabItemStyle}">
+                        <TextBox x:Name="TokensBox" 
+                                 Style="{StaticResource VSTextBoxStyle}"
+                                 Text="{Binding TokensOutput, Mode=OneWay}" 
+                                 IsReadOnly="True"
+                                 FontSize="11"/>
+                    </TabItem>
+
+                    <!-- نافذة الشجرة النحوية -->
+                    <TabItem Header="🌳 الشجرة" Style="{StaticResource VSTabItemStyle}">
+                        <TextBox x:Name="ASTBox" 
+                                 Style="{StaticResource VSTextBoxStyle}"
+                                 Text="{Binding ASTOutput, Mode=OneWay}" 
+                                 IsReadOnly="True"
+                                 FontSize="11"/>
+                    </TabItem>
+
+                    <!-- نافذة الكود الوسيط -->
+                    <TabItem Header="🔄 الوسيط" Style="{StaticResource VSTabItemStyle}">
+                        <TextBox x:Name="IntermediateCodeBox" 
+                                 Style="{StaticResource VSTextBoxStyle}"
+                                 Text="{Binding IntermediateCode, Mode=OneWay}" 
+                                 IsReadOnly="True"
+                                 FontFamily="Consolas"
+                                 FontSize="10"/>
+                    </TabItem>
+
+                    <!-- نافذة كود التجميع -->
+                    <TabItem Header="⚙️ التجميع" Style="{StaticResource VSTabItemStyle}">
+                        <TextBox x:Name="AssemblyCodeBox" 
+                                 Style="{StaticResource VSTextBoxStyle}"
+                                 Text="{Binding AssemblyCode, Mode=OneWay}" 
+                                 IsReadOnly="True"
+                                 FontFamily="Consolas"
+                                 FontSize="9"/>
+                    </TabItem>
+
+                    <!-- نافذة الأخطاء -->
+                    <TabItem Header="⚠️ الأخطاء" Style="{StaticResource VSTabItemStyle}">
+                        <TextBox x:Name="ErrorTextBox" 
+                                 Style="{StaticResource VSTextBoxStyle}"
+                                 Text="{Binding ErrorText, Mode=OneWay}" 
+                                 IsReadOnly="True" 
+                                 Foreground="#FF6B6B" 
+                                 Background="#1E1E1E"
+                                 FontSize="11"/>
+                    </TabItem>
+
+                    <!-- نافذة الإخراج -->
+                    <TabItem Header="📤 الإخراج" Style="{StaticResource VSTabItemStyle}">
+                        <TextBox x:Name="OutputBox" 
+                                 Style="{StaticResource VSTextBoxStyle}"
+                                 Text="{Binding ProgramOutput, Mode=OneWay}" 
+                                 IsReadOnly="True"
+                                 Foreground="#4EC9B0"
+                                 Background="#1E1E1E"
+                                 FontSize="11"/>
+                    </TabItem>
+
+                    <!-- نافذة الإدخال -->
+                    <TabItem Header="📥 الإدخال" Style="{StaticResource VSTabItemStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" 
+                                       Text="أدخل بيانات الإدخال للبرنامج (سطر لكل قيمة):" 
+                                       Foreground="#CCCCCC" 
+                                       Margin="10" 
+                                       FontSize="11"
+                                       TextWrapping="Wrap"/>
+                            
+                            <TextBox Grid.Row="1" 
+                                     x:Name="InputTextBox"
+                                     Style="{StaticResource VSTextBoxStyle}"
+                                     Text="{Binding UserInput, UpdateSourceTrigger=PropertyChanged}"
+                                     AcceptsReturn="True" 
+                                     FontSize="11"
+                                     FlowDirection="LeftToRight"/>
+                            
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                                <Button Content="🗑 مسح" 
+                                        Click="ClearInput_Click" 
+                                        Style="{StaticResource ToolBarButtonStyle}"
+                                        Background="#D16969"/>
+                                <Button Content="📤 إرسال" 
+                                        Click="SendInput_Click" 
+                                        Style="{StaticResource ToolBarButtonStyle}"
+                                        Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                </TabControl>
+            </Grid>
+        </Grid>
+
+        <!-- شريط الحالة السفلي -->
+        <StatusBar Grid.Row="2" Background="#007ACC" Foreground="White" Height="25">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusText" Text="جاهز - Arabic Compiler IDE" Padding="15,0" FontSize="11"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Left">
+                <TextBlock x:Name="LineInfo" Text="السطر: 1, العمود: 1" Padding="15,0" FontSize="11"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Left">
+                <TextBlock x:Name="FileInfo" Text="غير محفوظ" Padding="15,0" FontSize="11"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Left">
+                <TextBlock x:Name="EncodingInfo" Text="UTF-8" Padding="15,0" FontSize="11"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
