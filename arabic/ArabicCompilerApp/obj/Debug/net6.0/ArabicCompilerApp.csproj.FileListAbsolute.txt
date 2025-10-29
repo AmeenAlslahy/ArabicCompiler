@@ -1,0 +1,15 @@
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/bin/Debug/net6.0/ArabicCompilerApp
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/bin/Debug/net6.0/ArabicCompilerApp.deps.json
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/bin/Debug/net6.0/ArabicCompilerApp.runtimeconfig.json
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/bin/Debug/net6.0/ArabicCompilerApp.dll
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/bin/Debug/net6.0/ref/ArabicCompilerApp.dll
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/bin/Debug/net6.0/ArabicCompilerApp.pdb
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ArabicCompilerApp.csproj.AssemblyReference.cache
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ArabicCompilerApp.GeneratedMSBuildEditorConfig.editorconfig
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ArabicCompilerApp.AssemblyInfoInputs.cache
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ArabicCompilerApp.AssemblyInfo.cs
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ArabicCompilerApp.csproj.CoreCompileInputs.cache
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ArabicCompilerApp.dll
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ref/ArabicCompilerApp.dll
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ArabicCompilerApp.pdb
+/home/ubuntu/ArabicCompiler/ArabicCompilerApp/obj/Debug/net6.0/ArabicCompilerApp.genruntimeconfig.cache
